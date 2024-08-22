@@ -15,4 +15,4 @@ COPY . .
 
 ENV PYTHONPATH "${PYTHONPATH}:/app/src"
 
-CMD ["python", "src/main.py"]
+CMD ["python", "run", "src/main.py"]
