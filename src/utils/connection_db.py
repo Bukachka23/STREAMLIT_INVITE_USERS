@@ -18,7 +18,7 @@ def get_top_inviters(limit=10):
     cur = conn.cursor()
     cur.execute("""
         SELECT discord_id, invite_count
-        FROM users
+        FROM discord_users
         ORDER BY invite_count DESC
         LIMIT %s
     """, (limit,))
