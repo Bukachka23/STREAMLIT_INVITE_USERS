@@ -15,4 +15,6 @@ COPY . .
 
 ENV PYTHONPATH "${PYTHONPATH}:/app/src"
 
-CMD ["python", "run", "src/main.py"]
+ENTRYPOINT ["streamlit", "run"]
+
+CMD ["src/main.py"]
