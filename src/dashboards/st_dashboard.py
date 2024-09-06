@@ -1,3 +1,4 @@
+import base64
 import logging.config
 from typing import List, Dict, Any
 
@@ -20,6 +21,7 @@ class Dashboard:
     def run_streamlit_app(cls) -> None:
         """Run the Streamlit app."""
         logger.info("Starting Streamlit app")
+        cls._display_logo("src/images/logo.webp")
         st.title("Discord Invite Leaderboard")
 
         st.sidebar.title("Options")
@@ -86,3 +88,29 @@ class Dashboard:
                      color_continuous_scale='Viridis'
                      )
         st.plotly_chart(fig, use_container_width=True)
+
+    @staticmethod
+    def _load_logo(image_path):
+        """Load and encode the logo image."""
+        with open(image_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode()
+        return f"data:image/png;base64,{encoded_string}"
+
+    @staticmethod
+    def _display_logo(image_path):
+        """Display the logo in the sidebar."""
+        logo_data = Dashboard._load_logo(image_path)
+        st.sidebar.markdown(
+            f"""
+            <style>
+                [data-testid="stSidebarNav"] {{
+                    background-image: url({logo_data});
+                    background-repeat: no-repeat;
+                    padding-top: 120px;
+                    background-position: 20px 20px;
+                }}
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
