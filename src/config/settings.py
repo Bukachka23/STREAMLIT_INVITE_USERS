@@ -1,8 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 class ConfigDatabase:
-    HOST = os.getenv("DB_HOST")
-    DB = os.getenv("DB_NAME")
-    USER = os.getenv("DB_USER")
-    PASSWORD = os.getenv("DB_PASSWORD")
+    DATABASE_URL = os.getenv("DATABASE_URL")

@@ -1,10 +1,10 @@
-import base64
 import logging.config
 from typing import List, Dict, Any
 
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from PIL import Image
 
 from src.config.log_config import LOGGING
 from src.utils.connection_db import get_top_inviters
@@ -19,13 +19,25 @@ class Dashboard:
 
     @staticmethod
     def run_streamlit_app(cls) -> None:
-        """Run the Streamlit app."""
         logger.info("Starting Streamlit app")
-        cls._display_logo("src/images/logo.webp")
-        st.title("Discord Invite Leaderboard")
 
-        st.sidebar.title("Options")
+        discord_logo = Image.open("src/images/Foxian.webp")
+        st.image(discord_logo, use_column_width=True)
+
+        st.sidebar.title("Discord Invite Leaderboard")
         top_n = st.sidebar.slider("Number of top inviters to display", 5, 50, 10)
+
+        st.markdown(
+            """
+            <style>
+            .stApp > div > div > div > img {
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
         dashboard = cls()
         dashboard.display_leaderboard(top_n)
@@ -88,29 +100,3 @@ class Dashboard:
                      color_continuous_scale='Viridis'
                      )
         st.plotly_chart(fig, use_container_width=True)
-
-    @staticmethod
-    def _load_logo(image_path):
-        """Load and encode the logo image."""
-        with open(image_path, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read()).decode()
-        return f"data:image/png;base64,{encoded_string}"
-
-    @staticmethod
-    def _display_logo(image_path):
-        """Display the logo in the sidebar."""
-        logo_data = Dashboard._load_logo(image_path)
-        st.sidebar.markdown(
-            f"""
-            <style>
-                [data-testid="stSidebarNav"] {{
-                    background-image: url({logo_data});
-                    background-repeat: no-repeat;
-                    padding-top: 120px;
-                    background-position: 20px 20px;
-                }}
-            </style>
-            """,
-            unsafe_allow_html=True,
-        )
-

@@ -1,9 +1,8 @@
 import logging.config
-import os
-
 import psycopg2
 
 from src.config.log_config import LOGGING
+from src.config.settings import ConfigDatabase
 
 logging.config.dictConfig(LOGGING)
 logger = logging.getLogger(__name__)
@@ -11,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def get_db_connection():
     try:
-        database_url = os.getenv('DATABASE_URL')
+        database_url = ConfigDatabase.DATABASE_URL
         if not database_url:
             raise ValueError("DATABASE_URL environment variable is not set")
         conn = psycopg2.connect(database_url)

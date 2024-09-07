@@ -1,8 +1,5 @@
 from src.dashboards.st_dashboard import Dashboard
-import sys
-from streamlit.web import cli as stcli
 
 if __name__ == "__main__":
+    # Run the Streamlit app using the Dashboard class
     Dashboard.run_streamlit_app(cls=Dashboard)
-    sys.argv = ["streamlit", "run", "src/main.py"]
-    sys.exit(stcli.main())
